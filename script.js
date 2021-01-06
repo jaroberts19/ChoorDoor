@@ -2,12 +2,17 @@
 let door1 = document.getElementById('door1');
 let door2 = document.getElementById('door2');
 let door3 = document.getElementById('door3');
+let door4 = document.getElementById('door4');
+let door5 = document.getElementById('door5');
 
 let openDoor1;
 let openDoor2;
 let openDoor3;
+let openDoor4;
+let openDoor5;
 
-let numClosedDoors = 3;
+
+let numClosedDoors = 5;
 
 const startButton = document.getElementById('start');
 let currentlyPlaying = true;
@@ -17,6 +22,9 @@ const botDoorPath = 'https://s3.amazonaws.com/codecademy-content/projects/chore-
 const beachDoorPath = 'https://s3.amazonaws.com/codecademy-content/projects/chore-door/images/beach.svg';
 const spaceDoorPath = 'https://s3.amazonaws.com/codecademy-content/projects/chore-door/images/space.svg';
 const closedDoorPath = 'https://s3.amazonaws.com/codecademy-content/projects/chore-door/images/closed_door.svg';
+
+//an array of the open doors
+const openDoors = [botDoorPath, beachDoorPath, spaceDoorPath, beachDoorPath, spaceDoorPath];
 
 //checking if the user clicked on the chore bot
 const isBot = door => {
@@ -46,25 +54,23 @@ const playDoor = door => {
     }
 }
 
-//randomly choosing the door order
-const randomChoreDoorGenerator = () => {
-    const choreDoor = Math.floor(Math.random() * numClosedDoors);
-    if (choreDoor === 0) {
-        openDoor1 = botDoorPath;
-        openDoor2 = beachDoorPath;
-        openDoor3 = spaceDoorPath;
-    } else if (choreDoor === 1) {
-        openDoor2 = botDoorPath;
-        openDoor1 = spaceDoorPath;
-        openDoor3 = beachDoorPath;
-    } else if (choreDoor === 2){
-        openDoor3 = botDoorPath;
-        openDoor1 = beachDoorPath;
-        openDoor2 = spaceDoorPath;
+//shuffles the images then assigns a new src to each
+const randomChoreDoorGenerator = (arr) => {
+    let i = arr.length, j, temp;
+    while(--i > 0) {
+      j = Math.floor(Math.random() * (i+1));
+      temp = arr[j];
+      arr[j] = arr[i];
+      arr[i] = temp; 
     }
-}
+    openDoor1 = arr[0];
+    openDoor2 = arr[1];
+    openDoor3 = arr[2];
+    openDoor4 = arr[3];
+    openDoor5 = arr[4];
+  }
 
-//when the user clicks on a door it assigns it a new src containing one of the three images
+  //when the user clicks on a door it assigns it a new src containing one of the three images
 door1.onclick = () => {
     if (currentlyPlaying && !isClicked(door1)) {
         door1.src = openDoor1;
@@ -86,15 +92,31 @@ door3.onclick = () => {
     } 
 }
 
+door4.onclick = () => {
+    if (currentlyPlaying && !isClicked(door4)) {
+        door4.src = openDoor4;
+        playDoor(door4);
+    } 
+}
+
+door5.onclick = () => {
+    if (currentlyPlaying && !isClicked(door5)) {
+        door5.src = openDoor5;
+        playDoor(door5);
+    } 
+}
+
 //starts beginning of the game
 const startRound = () => {
-    numClosedDoors = 3;
+    numClosedDoors = 5;
     door1.src = closedDoorPath;
     door2.src = closedDoorPath;
     door3.src = closedDoorPath;
+    door4.src = closedDoorPath;
+    door5.src = closedDoorPath;
     startButton.innerHTML = 'Good luck!';
     currentlyPlaying = true;
-    randomChoreDoorGenerator();
+    randomChoreDoorGenerator(openDoors);
 }
 
 //allows user to restart the game after they finished a round
@@ -120,3 +142,5 @@ const gameOver = status => {
 
 startRound();
 
+shuffle(openDoors);
+console.log(openDoors)
