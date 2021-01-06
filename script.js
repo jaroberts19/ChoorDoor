@@ -140,6 +140,3 @@ const gameOver = status => {
 }
 
 startRound();
-
-shuffle(openDoors);
-console.log(openDoors)
