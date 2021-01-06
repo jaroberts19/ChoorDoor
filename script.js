@@ -11,7 +11,6 @@ let openDoor3;
 let openDoor4;
 let openDoor5;
 
-
 let numClosedDoors = 5;
 
 const startButton = document.getElementById('start');
@@ -70,7 +69,7 @@ const randomChoreDoorGenerator = (arr) => {
     openDoor5 = arr[4];
   }
 
-  //when the user clicks on a door it assigns it a new src containing one of the three images
+//when the user clicks on a door it assigns it a new src containing one of the images
 door1.onclick = () => {
     if (currentlyPlaying && !isClicked(door1)) {
         door1.src = openDoor1;
